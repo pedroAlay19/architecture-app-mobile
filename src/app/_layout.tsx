@@ -1,18 +1,32 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme } from 'react-native';
+import { queryClient } from "@/lib/queryClient";
+import { useSessionStore } from "@/modules/auth/store/sesion.store";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { Stack } from "expo-router";
+import { useEffect } from "react";
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
+export default function RootLayout() {
+  const token = useSessionStore((s) => s.token);
+  const isHydrated = useSessionStore((s) => s.isHydrated);
+  const hydrate = useSessionStore((s) => s.hydrate);
 
-SplashScreen.preventAutoHideAsync();
+  useEffect(() => {
+    hydrate();
+  }, [hydrate]);
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  if (!isHydrated) return null;
+
+  const isLoggedIn = !!token;
+
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
-  );
+    <QueryClientProvider client={queryClient}>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Protected guard={!isLoggedIn}>
+          <Stack.Screen name="(auth)"/>
+        </Stack.Protected>
+        <Stack.Protected guard={isLoggedIn}>
+          <Stack.Screen name="(app)"/>
+        </Stack.Protected>
+      </Stack>
+    </QueryClientProvider>
+);
 }
