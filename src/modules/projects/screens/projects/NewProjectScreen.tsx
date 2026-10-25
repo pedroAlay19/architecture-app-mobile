@@ -1,3 +1,4 @@
+import { notifyLocal } from '@/lib/notifications';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'expo-router';
 import { Controller, useForm } from 'react-hook-form';
@@ -40,8 +41,13 @@ export function NewProjectScreen() {
   });
 
   const onSubmit = (values: CreateProjectForm) => {
-    mutate(values, { onSuccess: () => router.back() });
-  };
+  mutate(values, {
+    onSuccess: () => {
+      notifyLocal('Proyecto creado', `"${values.name}" se registró correctamente.`);
+      router.back();
+    },
+  });
+};
 
   return (
     <ScrollView
@@ -86,7 +92,7 @@ export function NewProjectScreen() {
         <ActivityIndicator />
       ) : (
         <>
-          <Button title="Crear proyecto" onPress={handleSubmit(onSubmit)} />
+          <Button title="Crear proyecto" onPress={() => handleSubmit(onSubmit)} />
           <Button title="Cancelar" color="#64748b" onPress={() => router.back()} />
         </>
       )}
