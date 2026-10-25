@@ -5,7 +5,6 @@ import { createProjectAction } from '../actions/create-project.action';
 import { CreateProjectForm } from '../schemas/create-project.schema';
 
 export const useCreateProject = () => {
-
   return useMutation<{ id: string }, ApiError, CreateProjectForm>({
     mutationFn: createProjectAction,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['projects'] }),

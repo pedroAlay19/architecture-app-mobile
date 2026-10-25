@@ -43,7 +43,7 @@ export function NewProjectScreen() {
   const onSubmit = (values: CreateProjectForm) => {
   mutate(values, {
     onSuccess: () => {
-      notifyLocal('Proyecto creado', `"${values.name}" se registró correctamente.`);
+      notifyLocal('Project created', `"${values.name}" was registered successfully.`);
       router.back();
     },
   });
@@ -92,7 +92,7 @@ export function NewProjectScreen() {
         <ActivityIndicator />
       ) : (
         <>
-          <Button title="Crear proyecto" onPress={() => handleSubmit(onSubmit)} />
+          <Button title="Crear proyecto" onPress={() => handleSubmit(onSubmit)()} />
           <Button title="Cancelar" color="#64748b" onPress={() => router.back()} />
         </>
       )}

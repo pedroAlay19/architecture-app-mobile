@@ -10,5 +10,6 @@ export const createProjectAction = async (form: CreateProjectForm): Promise<{ id
   };
 
   const { data } = await api.post<{ id: string }>('/projects', payload);
+  console.log(data);
   return data;
 };
