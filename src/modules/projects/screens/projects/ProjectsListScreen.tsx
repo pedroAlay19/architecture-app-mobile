@@ -1,4 +1,5 @@
 import { useSessionStore } from '@/modules/auth/store/sesion.store';
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { ActivityIndicator, Button, FlatList, Text, View } from 'react-native';
 import { StatusTabs } from '../../components/StatusTab';
@@ -6,6 +7,7 @@ import { useProjects } from '../../hooks/useProject';
 import { ProjectStatus } from '../../interfaces/project.interface';
 
 export function ProjectsListScreen() {
+  const router = useRouter(); 
   const logout = useSessionStore((s) => s.logout);
   const [status, setStatus] = useState<ProjectStatus>('in_progress');
   const { data, isLoading, error, refetch } = useProjects(status);
@@ -13,6 +15,7 @@ export function ProjectsListScreen() {
   return (
     <View style={{ flex: 1, padding: 16, paddingTop: 60 }}>
       <Text style={{ fontSize: 24, fontWeight: '600' }}>Mis proyectos</Text>
+      <Button title="Nuevo proyecto" onPress={() => router.push('/projects/new')} /> 
       <Button title="Cerrar sesión" onPress={logout} />
 
       <StatusTabs value={status} onChange={setStatus} />
