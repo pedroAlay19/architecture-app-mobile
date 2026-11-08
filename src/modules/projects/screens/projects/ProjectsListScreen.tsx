@@ -3,7 +3,7 @@ import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { ActivityIndicator, Button, FlatList, Text, View } from 'react-native';
 import { StatusTabs } from '../../components/StatusTab';
-import { useProjects } from '../../hooks/useProject';
+import { useProjects } from '../../hooks/useProjects';
 import { ProjectStatus } from '../../interfaces/project.interface';
 
 export function ProjectsListScreen() {

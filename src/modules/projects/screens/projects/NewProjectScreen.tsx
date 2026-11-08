@@ -42,9 +42,9 @@ export function NewProjectScreen() {
 
   const onSubmit = (values: CreateProjectForm) => {
   mutate(values, {
-    onSuccess: () => {
+    onSuccess: (res) => {
       notifyLocal('Project created', `"${values.name}" was registered successfully.`);
-      router.back();
+      router.replace(`/projects/${res.data.id}`);
     },
   });
 };
