@@ -29,7 +29,7 @@ export function ProjectsListScreen() {
         </View>
       ) : (
         <FlatList
-          data={data?.projects}
+          data={data}
           keyExtractor={(p) => p.id}
           ListEmptyComponent={
             <Text>

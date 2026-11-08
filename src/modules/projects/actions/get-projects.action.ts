@@ -1,9 +1,9 @@
 import { api } from '@/lib/api/client';
-import { ProjectStatus } from '../interfaces/project.interface';
-import { ProjectsResponse } from '../interfaces/projects.response';
+import { ApiResponse } from '@/lib/api/interfaces/api-response.interface';
+import { Project, ProjectStatus } from '../interfaces/project.interface';
 
-export const getProjectsAction = async (status?: ProjectStatus): Promise<ProjectsResponse> => {
-  const { data } = await api.get<ProjectsResponse>('/projects', { params: { status } });
-  console.log(data);
-  return data;
+export const getProjectsAction = async (status?: ProjectStatus): Promise<Project[]> => {
+  const { data: res } = await api.get<ApiResponse<Project[]>>('/projects', { params: { status } });
+  console.log(res.data)
+  return res.data;
 };

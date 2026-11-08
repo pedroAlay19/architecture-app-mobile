@@ -1,20 +1,22 @@
 import { isAxiosError } from 'axios';
+import { ApiResponse } from './interfaces/api-response.interface';
 
 export class ApiError extends Error {
   constructor(
     message: string,
     public status?: number,
-    public messages: string[] = [message],
   ) {
     super(message);
     this.name = 'ApiError';
   }
 }
 
+const DEFAULT_MESSAGE = 'Ocurrió un error inesperado.';
+
 export const toApiError = (error: unknown): ApiError => {
   if (error instanceof ApiError) return error;
 
-  if (isAxiosError(error)) {
+  if (isAxiosError<ApiResponse<null>>(error)) {
     if (!error.response) {
       return new ApiError(
         error.code === 'ECONNABORTED'
@@ -24,15 +26,8 @@ export const toApiError = (error: unknown): ApiError => {
     }
 
     const { status, data } = error.response;
-    const raw = data?.message;
-    const messages: string[] = Array.isArray(raw)
-      ? raw
-      : raw
-        ? [String(raw)]
-        : ['Ocurrió un error inesperado.'];
-
-    return new ApiError(messages[0], status, messages);
+    return new ApiError(data?.message || DEFAULT_MESSAGE, status);
   }
 
-  return new ApiError('Ocurrió un error inesperado.');
+  return new ApiError(DEFAULT_MESSAGE);
 };
