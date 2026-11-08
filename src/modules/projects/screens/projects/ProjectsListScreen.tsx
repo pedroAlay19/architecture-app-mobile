@@ -1,7 +1,7 @@
 import { useSessionStore } from '@/modules/auth/store/sesion.store';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { ActivityIndicator, Button, FlatList, Text, View } from 'react-native';
+import { ActivityIndicator, Button, FlatList, Pressable, Text, View } from 'react-native';
 import { StatusTabs } from '../../components/StatusTab';
 import { useProjects } from '../../hooks/useProjects';
 import { ProjectStatus } from '../../interfaces/project.interface';
@@ -37,10 +37,13 @@ export function ProjectsListScreen() {
             </Text>
           }
           renderItem={({ item }) => (
-            <View style={{ padding: 12, borderWidth: 1, borderColor: '#ddd', borderRadius: 8, marginTop: 8 }}>
+            <Pressable
+              onPress={() => router.push(`/projects/${item.id}`)}
+              style={{ padding: 12, borderWidth: 1, borderColor: '#ddd', borderRadius: 8, marginTop: 8 }}
+            >
               <Text style={{ fontWeight: '600' }}>{item.name}</Text>
               <Text>{item.location}</Text>
-            </View>
+            </Pressable>
           )}
         />
       )}
