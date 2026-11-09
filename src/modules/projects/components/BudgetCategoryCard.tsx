@@ -1,9 +1,23 @@
 import { formatMoney } from '@/lib/format';
 import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { BudgetCategory } from '../interfaces/project-detail.interface';
 
-export function BudgetCategoryCard({ category }: { category: BudgetCategory }) {
+interface CardItem {
+  code: string | null;
+  description: string;
+  unit: string;
+  quantity: number;
+  unitPrice: number;
+  total: number;
+}
+
+interface CardCategory {
+  name: string;
+  subtotal: number;
+  items: CardItem[];
+}
+
+export function BudgetCategoryCard({ category }: { category: CardCategory }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -22,8 +36,8 @@ export function BudgetCategoryCard({ category }: { category: BudgetCategory }) {
       </Pressable>
 
       {open &&
-        category.items.map((item) => (
-          <View key={item.id} style={{ padding: 12, borderTopWidth: 1, borderTopColor: '#eee', gap: 2 }}>
+        category.items.map((item, index) => (
+          <View key={index} style={{ padding: 12, borderTopWidth: 1, borderTopColor: '#eee', gap: 2 }}>
             <Text>
               {item.code ? `${item.code} · ` : ''}
               {item.description}

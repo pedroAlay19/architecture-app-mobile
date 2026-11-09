@@ -53,7 +53,7 @@ export function ProjectDetailScreen() {
         <View style={{ gap: 8 }}>
           <Text style={{ color: '#64748b' }}>Esta obra aún no tiene presupuesto cargado.</Text>
           {/* paso 4: navegar a la pantalla de carga */}
-          <Button title="Cargar presupuesto" onPress={() => {}} />
+          <Button title="Cargar presupuesto" onPress={() => router.push(`/projects/${projectId}/budget`)} />
         </View>
       ) : (
         <View style={{ gap: 8 }}>
